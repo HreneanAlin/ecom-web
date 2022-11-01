@@ -1,0 +1,5 @@
+query Movie($movieId: String!) {
+  movie(id: $movieId) {
+    ...MovieFragment
+  }
+}

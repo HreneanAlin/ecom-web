@@ -1,0 +1,7 @@
+fragment MovieFragment on Movie {
+  _id
+  title
+  price
+  description
+  onSale
+}

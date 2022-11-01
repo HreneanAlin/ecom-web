@@ -1,0 +1,5 @@
+query Movies {
+  movies {
+    ...MovieFragment
+  }
+}
