@@ -1,5 +1,6 @@
 import { AppRouter } from "./AppRouter"
 import { MantineProvider } from "@mantine/core"
+import { NotificationsProvider } from "@mantine/notifications"
 
 function App() {
   return (
@@ -9,7 +10,9 @@ function App() {
         withGlobalStyles
         withNormalizeCSS
       >
-        <AppRouter />
+        <NotificationsProvider>
+          <AppRouter />
+        </NotificationsProvider>
       </MantineProvider>
     </>
   )

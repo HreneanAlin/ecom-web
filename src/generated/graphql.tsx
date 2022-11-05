@@ -110,6 +110,19 @@ export type MovieFragmentFragment = {
   onSale: boolean;
 };
 
+export type CreateCheckoutSessionMutationVariables = Exact<{
+  createCheckoutSession: CreateCheckoutSession;
+}>;
+
+export type CreateCheckoutSessionMutation = {
+  __typename?: "Mutation";
+  createCheckoutSession: {
+    __typename?: "CheckoutSession";
+    _id: string;
+    url: string;
+  };
+};
+
 export type MovieQueryVariables = Exact<{
   movieId: Scalars["String"];
 }>;
@@ -149,6 +162,59 @@ export const MovieFragmentFragmentDoc = gql`
     onSale
   }
 `;
+export const CreateCheckoutSessionDocument = gql`
+  mutation CreateCheckoutSession(
+    $createCheckoutSession: CreateCheckoutSession!
+  ) {
+    createCheckoutSession(createCheckoutSession: $createCheckoutSession) {
+      _id
+      url
+    }
+  }
+`;
+export type CreateCheckoutSessionMutationFn = Apollo.MutationFunction<
+  CreateCheckoutSessionMutation,
+  CreateCheckoutSessionMutationVariables
+>;
+
+/**
+ * __useCreateCheckoutSessionMutation__
+ *
+ * To run a mutation, you first call `useCreateCheckoutSessionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateCheckoutSessionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createCheckoutSessionMutation, { data, loading, error }] = useCreateCheckoutSessionMutation({
+ *   variables: {
+ *      createCheckoutSession: // value for 'createCheckoutSession'
+ *   },
+ * });
+ */
+export function useCreateCheckoutSessionMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateCheckoutSessionMutation,
+    CreateCheckoutSessionMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreateCheckoutSessionMutation,
+    CreateCheckoutSessionMutationVariables
+  >(CreateCheckoutSessionDocument, options);
+}
+export type CreateCheckoutSessionMutationHookResult = ReturnType<
+  typeof useCreateCheckoutSessionMutation
+>;
+export type CreateCheckoutSessionMutationResult =
+  Apollo.MutationResult<CreateCheckoutSessionMutation>;
+export type CreateCheckoutSessionMutationOptions = Apollo.BaseMutationOptions<
+  CreateCheckoutSessionMutation,
+  CreateCheckoutSessionMutationVariables
+>;
 export const MovieDocument = gql`
   query Movie($movieId: String!) {
     movie(id: $movieId) {

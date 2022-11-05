@@ -8,27 +8,33 @@ import {
   Indicator,
 } from "@mantine/core"
 import { HiShoppingCart } from "react-icons/hi"
+import { useShoppingCartStore } from "../../store"
+import { CartItem } from "./components/CartItem"
+import { Field } from "../../types/Field"
 export const Header = () => {
+  const { fields } = useShoppingCartStore()
+
   return (
     <MantineHeader height={60} p='xs'>
       <div className='tw-flex tw-items-center tw-justify-end tw-pr-20'>
         <Menu closeOnItemClick={false} shadow='md' width={300}>
           <Menu.Target>
-            <Indicator size={16} label='2'>
+            {fields.size ? (
+              <Indicator size={16} label={fields.size}>
+                <ActionIcon>
+                  <HiShoppingCart size={25} />
+                </ActionIcon>
+              </Indicator>
+            ) : (
               <ActionIcon>
                 <HiShoppingCart size={25} />
               </ActionIcon>
-            </Indicator>
+            )}
           </Menu.Target>
           <Menu.Dropdown>
-            <Menu.Item>
-              <div className='tw-flex tw-items-center tw-justify-between'>
-                <Text>Item 1</Text>
-                <div className='tw-w-16'>
-                  <NumberInput min={0} max={10} />
-                </div>
-              </div>
-            </Menu.Item>
+            {[...fields.values()].map(field => (
+              <CartItem key={field.movieId} field={field} />
+            ))}
           </Menu.Dropdown>
         </Menu>
       </div>

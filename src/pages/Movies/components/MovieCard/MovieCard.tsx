@@ -48,7 +48,7 @@ export const MovieCard = ({ movie }: MovieCardProps) => {
       >
         Details!
       </Button>
-      <AddToCard movieId={movie._id} />
+      <AddToCard movie={movie} />
     </Card>
   )
 }

@@ -1,0 +1,6 @@
+mutation CreateCheckoutSession($createCheckoutSession: CreateCheckoutSession!) {
+  createCheckoutSession(createCheckoutSession: $createCheckoutSession) {
+    _id
+    url
+  }
+}
