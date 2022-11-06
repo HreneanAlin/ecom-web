@@ -8,7 +8,7 @@ import {
   createRoutesFromElements,
 } from "react-router-dom"
 import { Layout, RootLayout } from "./components"
-import { Home, Movies, Movie, Login, Register } from "./pages"
+import { Home, Movies, Movie, Login, Register, SuccessPay } from "./pages"
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -17,6 +17,7 @@ const router = createBrowserRouter(
         <Route index element={<Home />} />
         <Route path='/movies' element={<Movies />} />
         <Route path='/movies/:id' element={<Movie />} />
+        <Route path='/success-pay' element={<SuccessPay />} />
       </Route>
       <Route path='/login' element={<Login />} />
       <Route path='/register' element={<Register />} />

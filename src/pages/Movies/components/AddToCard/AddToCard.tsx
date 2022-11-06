@@ -8,19 +8,15 @@ interface AddToCardProps {
 }
 export const AddToCard = ({ movie }: AddToCardProps) => {
   const [nrOfItems, setNrOfItems] = useState(0)
-  const [showButton, setShowButton] = useState(false)
   const { addItemToCart, hasItem } = useShoppingCartStore()
   const handleIncrement = () => {
-    setShowButton(true)
     setNrOfItems(prev => ++prev)
   }
   const handleDecrement = () => {
-    setShowButton(true)
     setNrOfItems(prev => --prev)
   }
 
   const handleAddItemToCart = () => {
-    setShowButton(false)
     addItemToCart({
       movieId: movie._id,
       quantity: nrOfItems,
