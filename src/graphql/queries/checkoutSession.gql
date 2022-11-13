@@ -1,0 +1,16 @@
+query CheckoutSession($checkoutSessionId: String!) {
+  checkoutSession(id: $checkoutSessionId) {
+    _id
+    status
+    stripeSessionId
+    url
+    movies {
+      _id
+      description
+      onSale
+      price
+      quantity
+      title
+    }
+  }
+}

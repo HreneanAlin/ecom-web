@@ -1,8 +1,23 @@
-import { Badge, Button, Card, Group, Image, Text, Table } from "@mantine/core"
+import { Card, Image, Text, Table } from "@mantine/core"
 import React from "react"
 import { HiBadgeCheck } from "react-icons/hi"
-
+import { useParams } from "react-router-dom"
+import { useCheckoutSessionQuery } from "../../generated/graphql"
+import { TableRow } from "./components"
 export const SuccessPay = () => {
+  const { sessionId } = useParams()
+  const { loading, data } = useCheckoutSessionQuery({
+    variables: {
+      checkoutSessionId: sessionId || "",
+    },
+  })
+
+  if (loading) {
+    return <div>Loading...</div>
+  }
+  if (data?.checkoutSession.status !== "complete") {
+    return <div>Payment not done</div>
+  }
   return (
     <Card shadow='sm' p='lg' radius='md' withBorder>
       <div className='tw-flex tw-justify-center'>
@@ -19,34 +34,9 @@ export const SuccessPay = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>
-              <div className='tw-max-w-xs tw-my-2'>
-                <Image
-                  src='https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80'
-                  height={160}
-                  alt='Norway'
-                />
-              </div>
-            </td>
-            <td>
-              <Text>2</Text>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div className='tw-max-w-xs tw-my-2'>
-                <Image
-                  src='https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80'
-                  height={160}
-                  alt='Norway'
-                />
-              </div>
-            </td>
-            <td>
-              <Text>20$</Text>
-            </td>
-          </tr>
+          {data?.checkoutSession.movies.map(movieDto => (
+            <TableRow key={movieDto._id} movieDto={movieDto} />
+          ))}
         </tbody>
       </Table>
     </Card>

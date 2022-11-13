@@ -25,6 +25,9 @@ export type CheckoutSession = {
   __typename?: "CheckoutSession";
   /** the id of the checkout session */
   _id: Scalars["String"];
+  movies: Array<MovieDto>;
+  status: Scalars["String"];
+  stripeSessionId: Scalars["String"];
   url: Scalars["String"];
 };
 
@@ -49,7 +52,17 @@ export type Movie = {
   description: Scalars["String"];
   onSale: Scalars["Boolean"];
   /** price in USD */
-  price: Scalars["Int"];
+  price: Scalars["Float"];
+  title: Scalars["String"];
+};
+
+export type MovieDto = {
+  __typename?: "MovieDto";
+  _id: Scalars["String"];
+  description: Scalars["String"];
+  onSale: Scalars["Boolean"];
+  price: Scalars["Float"];
+  quantity: Scalars["Int"];
   title: Scalars["String"];
 };
 
@@ -84,8 +97,13 @@ export type MutationUpdateMovieArgs = {
 
 export type Query = {
   __typename?: "Query";
+  checkoutSession: CheckoutSession;
   movie: Movie;
   movies: Array<Movie>;
+};
+
+export type QueryCheckoutSessionArgs = {
+  id: Scalars["String"];
 };
 
 export type QueryMovieArgs = {
@@ -120,6 +138,30 @@ export type CreateCheckoutSessionMutation = {
     __typename?: "CheckoutSession";
     _id: string;
     url: string;
+  };
+};
+
+export type CheckoutSessionQueryVariables = Exact<{
+  checkoutSessionId: Scalars["String"];
+}>;
+
+export type CheckoutSessionQuery = {
+  __typename?: "Query";
+  checkoutSession: {
+    __typename?: "CheckoutSession";
+    _id: string;
+    status: string;
+    stripeSessionId: string;
+    url: string;
+    movies: Array<{
+      __typename?: "MovieDto";
+      _id: string;
+      description: string;
+      onSale: boolean;
+      price: number;
+      quantity: number;
+      title: string;
+    }>;
   };
 };
 
@@ -214,6 +256,75 @@ export type CreateCheckoutSessionMutationResult =
 export type CreateCheckoutSessionMutationOptions = Apollo.BaseMutationOptions<
   CreateCheckoutSessionMutation,
   CreateCheckoutSessionMutationVariables
+>;
+export const CheckoutSessionDocument = gql`
+  query CheckoutSession($checkoutSessionId: String!) {
+    checkoutSession(id: $checkoutSessionId) {
+      _id
+      status
+      stripeSessionId
+      url
+      movies {
+        _id
+        description
+        onSale
+        price
+        quantity
+        title
+      }
+    }
+  }
+`;
+
+/**
+ * __useCheckoutSessionQuery__
+ *
+ * To run a query within a React component, call `useCheckoutSessionQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCheckoutSessionQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCheckoutSessionQuery({
+ *   variables: {
+ *      checkoutSessionId: // value for 'checkoutSessionId'
+ *   },
+ * });
+ */
+export function useCheckoutSessionQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    CheckoutSessionQuery,
+    CheckoutSessionQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<CheckoutSessionQuery, CheckoutSessionQueryVariables>(
+    CheckoutSessionDocument,
+    options
+  );
+}
+export function useCheckoutSessionLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    CheckoutSessionQuery,
+    CheckoutSessionQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    CheckoutSessionQuery,
+    CheckoutSessionQueryVariables
+  >(CheckoutSessionDocument, options);
+}
+export type CheckoutSessionQueryHookResult = ReturnType<
+  typeof useCheckoutSessionQuery
+>;
+export type CheckoutSessionLazyQueryHookResult = ReturnType<
+  typeof useCheckoutSessionLazyQuery
+>;
+export type CheckoutSessionQueryResult = Apollo.QueryResult<
+  CheckoutSessionQuery,
+  CheckoutSessionQueryVariables
 >;
 export const MovieDocument = gql`
   query Movie($movieId: String!) {

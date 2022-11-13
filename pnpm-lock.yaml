@@ -8,6 +8,7 @@ specifiers:
   '@graphql-codegen/typescript': ^2.7.5
   '@graphql-codegen/typescript-operations': ^2.5.5
   '@graphql-codegen/typescript-react-apollo': ^3.3.5
+  '@hookform/resolvers': ^2.9.10
   '@mantine/core': ^5.6.1
   '@mantine/hooks': ^5.6.1
   '@mantine/notifications': ^5.6.1
@@ -26,18 +27,21 @@ specifiers:
   prettier: ^2.7.1
   react: ^18.2.0
   react-dom: ^18.2.0
+  react-hook-form: ^7.39.3
   react-icons: ^4.6.0
   react-router-dom: 6.4.2
   tailwindcss: ^3.2.1
   ts-node: ^10.9.1
   typescript: ^4.6.4
   vite: ^3.1.0
+  zod: ^3.19.1
   zustand: ^4.1.4
 
 dependencies:
   '@apollo/client': 3.7.0_gdcq4dv6opitr3wbfwyjmanyra
   '@babel/core': 7.19.6
   '@emotion/react': 11.10.4_d3zi5agmim5yvele7myolzagti
+  '@hookform/resolvers': 2.9.10_react-hook-form@7.39.3
   '@mantine/core': 5.6.1_lw2bnmjkfhtvnumpmzuv42aqpy
   '@mantine/hooks': 5.6.1_react@18.2.0
   '@mantine/notifications': 5.6.1_ogw74x2o63pz64drwzzggd7jle
@@ -48,8 +52,10 @@ dependencies:
   graphql-tag: 2.12.6_graphql@16.6.0
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
+  react-hook-form: 7.39.3_react@18.2.0
   react-icons: 4.6.0_react@18.2.0
   react-router-dom: 6.4.2_biqbaboplfbrettd7655fr4n2y
+  zod: 3.19.1
   zustand: 4.1.4_react@18.2.0
 
 devDependencies:
@@ -1317,6 +1323,14 @@ packages:
       graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
     dependencies:
       graphql: 16.6.0
+
+  /@hookform/resolvers/2.9.10_react-hook-form@7.39.3:
+    resolution: {integrity: sha512-JIL1DgJIlH9yuxcNGtyhsWX/PgNltz+5Gr6+8SX9fhXc/hPbEIk6wPI82nhgvp3uUb6ZfAM5mqg/x7KR7NAb+A==}
+    peerDependencies:
+      react-hook-form: ^7.0.0
+    dependencies:
+      react-hook-form: 7.39.3_react@18.2.0
+    dev: false
 
   /@iarna/toml/2.2.5:
     resolution: {integrity: sha512-trnsAYxU3xnS1gPHPyU961coFyLkh4gAD/0zQ5mymY4yOZ+CYvsPqUbOFSw0aDM4y0tV7tiFxL/1XfXPNC6IPg==}
@@ -3751,6 +3765,15 @@ packages:
       scheduler: 0.23.0
     dev: false
 
+  /react-hook-form/7.39.3_react@18.2.0:
+    resolution: {integrity: sha512-H/vwk1vBf+TiXuyW6+hWz+zCujiDO6NqHlN5sPE/a+NGKKGK95XTM65DZz3NmEgs2M20Wka+g4uv4VD367wDBA==}
+    engines: {node: '>=12.22.0'}
+    peerDependencies:
+      react: ^16.8.0 || ^17 || ^18
+    dependencies:
+      react: 18.2.0
+    dev: false
+
   /react-icons/4.6.0_react@18.2.0:
     resolution: {integrity: sha512-rR/L9m9340yO8yv1QT1QurxWQvWpbNHqVX0fzMln2HEb9TEIrQRGsqiNFQfiv9/JEUbyHmHPlNTB2LWm2Ttz0g==}
     peerDependencies:
@@ -4543,6 +4566,10 @@ packages:
 
   /zen-observable/0.8.15:
     resolution: {integrity: sha512-PQ2PC7R9rslx84ndNBZB/Dkv8V8fZEpk83RLgXtYd0fwUgEjseMn1Dgajh2x6S8QbZAFa9p2qVCEuYZNgve0dQ==}
+    dev: false
+
+  /zod/3.19.1:
+    resolution: {integrity: sha512-LYjZsEDhCdYET9ikFu6dVPGp2YH9DegXjdJToSzD9rO6fy4qiRYFoyEYwps88OseJlPyl2NOe2iJuhEhL7IpEA==}
     dev: false
 
   /zustand/4.1.4_react@18.2.0:

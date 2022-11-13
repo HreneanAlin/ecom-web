@@ -17,10 +17,10 @@ const router = createBrowserRouter(
         <Route index element={<Home />} />
         <Route path='/movies' element={<Movies />} />
         <Route path='/movies/:id' element={<Movie />} />
-        <Route path='/success-pay' element={<SuccessPay />} />
+        <Route path='/success-pay/:sessionId' element={<SuccessPay />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register />} />
       </Route>
-      <Route path='/login' element={<Login />} />
-      <Route path='/register' element={<Register />} />
     </Route>
   )
 )
