@@ -39,31 +39,29 @@ export const Header = () => {
   return (
     <MantineHeader height={60} p='xs'>
       <div className='tw-flex tw-items-center tw-justify-end tw-pr-20'>
-        <Menu closeOnItemClick={false} shadow='md' width={300}>
-          <Menu.Target>
-            {fields.size ? (
+        {fields.size > 0 ? (
+          <Menu closeOnItemClick={false} shadow='md' width={300}>
+            <Menu.Target>
               <Indicator size={16} label={fields.size}>
                 <ActionIcon>
                   <HiShoppingCart size={25} />
                 </ActionIcon>
               </Indicator>
-            ) : (
-              <ActionIcon>
-                <HiShoppingCart size={25} />
-              </ActionIcon>
-            )}
-          </Menu.Target>
-          <Menu.Dropdown>
-            {[...fields.values()].map(field => (
-              <CartItem key={field.movieId} field={field} />
-            ))}
-            <div className='tw-flex tw-justify-center'>
-              <Button onClick={handleCheckout} loading={loading}>
-                Go to Checkout
-              </Button>
-            </div>
-          </Menu.Dropdown>
-        </Menu>
+            </Menu.Target>
+            <Menu.Dropdown>
+              {[...fields.values()].map(field => (
+                <CartItem key={field.movieId} field={field} />
+              ))}
+              <div className='tw-flex tw-justify-center'>
+                <Button onClick={handleCheckout} loading={loading}>
+                  Go to Checkout
+                </Button>
+              </div>
+            </Menu.Dropdown>
+          </Menu>
+        ) : (
+          <HiShoppingCart size={25} />
+        )}
       </div>
     </MantineHeader>
   )

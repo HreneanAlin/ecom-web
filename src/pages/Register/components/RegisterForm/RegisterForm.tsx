@@ -1,12 +1,6 @@
-import { TextInput, PasswordInput, Button, List } from "@mantine/core"
+import { TextInput, PasswordInput, Button} from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
-import {
-  HiLockClosed,
-  HiAtSymbol,
-  HiUserCircle,
-  HiX,
-  HiCheck,
-} from "react-icons/hi"
+import { HiLockClosed, HiAtSymbol, HiUserCircle } from "react-icons/hi"
 import React from "react"
 import { useForm } from "react-hook-form"
 import { RegisterFields, registerSchema } from "../../zodSchemas"

@@ -1,6 +1,5 @@
 import React from "react"
 import { Menu, Text } from "@mantine/core"
-import { MovieInput } from "../../../generated/graphql"
 import { Field } from "../../../types/Field"
 interface CartItemProps {
   field: Field
