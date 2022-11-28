@@ -19,6 +19,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  DateTime: any;
 };
 
 export type CheckoutSession = {
@@ -41,6 +42,13 @@ export type CreateMovieInput = {
   /** price in USD */
   price: Scalars["Int"];
   title: Scalars["String"];
+};
+
+export type CreateUser = {
+  email: Scalars["String"];
+  firstName: Scalars["String"];
+  lastName: Scalars["String"];
+  password: Scalars["String"];
 };
 
 export type Movie = {
@@ -71,11 +79,21 @@ export type MovieInput = {
   quantity: Scalars["Int"];
 };
 
+export type MovieWithQuantityDto = {
+  __typename?: "MovieWithQuantityDTO";
+  movie: Movie;
+  quantity: Scalars["Int"];
+};
+
 export type Mutation = {
   __typename?: "Mutation";
   createCheckoutSession: CheckoutSession;
   createMovie: Movie;
+  refreshTokens: TokensDto;
   removeMovie: Movie;
+  signInLocal: UserWithTokensDto;
+  signOut: SignOutDto;
+  signUpLocal: UserWithTokensDto;
   updateMovie: Movie;
 };
 
@@ -91,6 +109,14 @@ export type MutationRemoveMovieArgs = {
   id: Scalars["String"];
 };
 
+export type MutationSignInLocalArgs = {
+  signInLocal: SignInLocal;
+};
+
+export type MutationSignUpLocalArgs = {
+  createUserInput: CreateUser;
+};
+
 export type MutationUpdateMovieArgs = {
   updateMovieInput: UpdateMovieInput;
 };
@@ -98,6 +124,7 @@ export type MutationUpdateMovieArgs = {
 export type Query = {
   __typename?: "Query";
   checkoutSession: CheckoutSession;
+  me: UserDto;
   movie: Movie;
   movies: Array<Movie>;
 };
@@ -110,6 +137,23 @@ export type QueryMovieArgs = {
   id: Scalars["String"];
 };
 
+export type SignInLocal = {
+  email: Scalars["String"];
+  password: Scalars["String"];
+};
+
+export type SignOutDto = {
+  __typename?: "SignOutDto";
+  success: Scalars["Boolean"];
+};
+
+export type TokensDto = {
+  __typename?: "TokensDto";
+  refreshToken: Scalars["String"];
+  token: Scalars["String"];
+  tokenExpiration: Scalars["DateTime"];
+};
+
 export type UpdateMovieInput = {
   description?: InputMaybe<Scalars["String"]>;
   id: Scalars["String"];
@@ -119,6 +163,31 @@ export type UpdateMovieInput = {
   title?: InputMaybe<Scalars["String"]>;
 };
 
+export type UserDto = {
+  __typename?: "UserDto";
+  _id: Scalars["String"];
+  createdAt: Scalars["DateTime"];
+  email: Scalars["String"];
+  firstName: Scalars["String"];
+  lastName: Scalars["String"];
+  movies: Array<MovieWithQuantityDto>;
+  payments: Array<CheckoutSession>;
+  updatedAt: Scalars["DateTime"];
+};
+
+export type UserWithTokensDto = {
+  __typename?: "UserWithTokensDto";
+  _id: Scalars["String"];
+  createdAt: Scalars["DateTime"];
+  email: Scalars["String"];
+  firstName: Scalars["String"];
+  lastName: Scalars["String"];
+  movies: Array<MovieWithQuantityDto>;
+  payments: Array<CheckoutSession>;
+  tokens: TokensDto;
+  updatedAt: Scalars["DateTime"];
+};
+
 export type MovieFragmentFragment = {
   __typename?: "Movie";
   _id: string;
@@ -126,6 +195,13 @@ export type MovieFragmentFragment = {
   price: number;
   description: string;
   onSale: boolean;
+};
+
+export type TokensFragmentFragment = {
+  __typename?: "TokensDto";
+  token: string;
+  refreshToken: string;
+  tokenExpiration: any;
 };
 
 export type CreateCheckoutSessionMutationVariables = Exact<{
@@ -138,6 +214,70 @@ export type CreateCheckoutSessionMutation = {
     __typename?: "CheckoutSession";
     _id: string;
     url: string;
+  };
+};
+
+export type RefreshTokensMutationVariables = Exact<{ [key: string]: never }>;
+
+export type RefreshTokensMutation = {
+  __typename?: "Mutation";
+  refreshTokens: {
+    __typename?: "TokensDto";
+    token: string;
+    refreshToken: string;
+    tokenExpiration: any;
+  };
+};
+
+export type SignInLocalMutationVariables = Exact<{
+  signInLocal: SignInLocal;
+}>;
+
+export type SignInLocalMutation = {
+  __typename?: "Mutation";
+  signInLocal: {
+    __typename?: "UserWithTokensDto";
+    firstName: string;
+    lastName: string;
+    email: string;
+    updatedAt: any;
+    createdAt: any;
+    tokens: {
+      __typename?: "TokensDto";
+      token: string;
+      refreshToken: string;
+      tokenExpiration: any;
+    };
+  };
+};
+
+export type SignOutMutationVariables = Exact<{ [key: string]: never }>;
+
+export type SignOutMutation = {
+  __typename?: "Mutation";
+  signOut: { __typename?: "SignOutDto"; success: boolean };
+};
+
+export type SignUpLocalMutationVariables = Exact<{
+  createUserInput: CreateUser;
+}>;
+
+export type SignUpLocalMutation = {
+  __typename?: "Mutation";
+  signUpLocal: {
+    __typename?: "UserWithTokensDto";
+    _id: string;
+    createdAt: any;
+    email: string;
+    firstName: string;
+    lastName: string;
+    updatedAt: any;
+    tokens: {
+      __typename?: "TokensDto";
+      token: string;
+      refreshToken: string;
+      tokenExpiration: any;
+    };
   };
 };
 
@@ -162,6 +302,21 @@ export type CheckoutSessionQuery = {
       quantity: number;
       title: string;
     }>;
+  };
+};
+
+export type MeQueryVariables = Exact<{ [key: string]: never }>;
+
+export type MeQuery = {
+  __typename?: "Query";
+  me: {
+    __typename?: "UserDto";
+    _id: string;
+    lastName: string;
+    firstName: string;
+    email: string;
+    createdAt: any;
+    updatedAt: any;
   };
 };
 
@@ -202,6 +357,13 @@ export const MovieFragmentFragmentDoc = gql`
     price
     description
     onSale
+  }
+`;
+export const TokensFragmentFragmentDoc = gql`
+  fragment TokensFragment on TokensDto {
+    token
+    refreshToken
+    tokenExpiration
   }
 `;
 export const CreateCheckoutSessionDocument = gql`
@@ -256,6 +418,219 @@ export type CreateCheckoutSessionMutationResult =
 export type CreateCheckoutSessionMutationOptions = Apollo.BaseMutationOptions<
   CreateCheckoutSessionMutation,
   CreateCheckoutSessionMutationVariables
+>;
+export const RefreshTokensDocument = gql`
+  mutation RefreshTokens {
+    refreshTokens {
+      ...TokensFragment
+    }
+  }
+  ${TokensFragmentFragmentDoc}
+`;
+export type RefreshTokensMutationFn = Apollo.MutationFunction<
+  RefreshTokensMutation,
+  RefreshTokensMutationVariables
+>;
+
+/**
+ * __useRefreshTokensMutation__
+ *
+ * To run a mutation, you first call `useRefreshTokensMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRefreshTokensMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [refreshTokensMutation, { data, loading, error }] = useRefreshTokensMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useRefreshTokensMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    RefreshTokensMutation,
+    RefreshTokensMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    RefreshTokensMutation,
+    RefreshTokensMutationVariables
+  >(RefreshTokensDocument, options);
+}
+export type RefreshTokensMutationHookResult = ReturnType<
+  typeof useRefreshTokensMutation
+>;
+export type RefreshTokensMutationResult =
+  Apollo.MutationResult<RefreshTokensMutation>;
+export type RefreshTokensMutationOptions = Apollo.BaseMutationOptions<
+  RefreshTokensMutation,
+  RefreshTokensMutationVariables
+>;
+export const SignInLocalDocument = gql`
+  mutation SignInLocal($signInLocal: SignInLocal!) {
+    signInLocal(signInLocal: $signInLocal) {
+      tokens {
+        ...TokensFragment
+      }
+      firstName
+      lastName
+      email
+      updatedAt
+      createdAt
+    }
+  }
+  ${TokensFragmentFragmentDoc}
+`;
+export type SignInLocalMutationFn = Apollo.MutationFunction<
+  SignInLocalMutation,
+  SignInLocalMutationVariables
+>;
+
+/**
+ * __useSignInLocalMutation__
+ *
+ * To run a mutation, you first call `useSignInLocalMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSignInLocalMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [signInLocalMutation, { data, loading, error }] = useSignInLocalMutation({
+ *   variables: {
+ *      signInLocal: // value for 'signInLocal'
+ *   },
+ * });
+ */
+export function useSignInLocalMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    SignInLocalMutation,
+    SignInLocalMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<SignInLocalMutation, SignInLocalMutationVariables>(
+    SignInLocalDocument,
+    options
+  );
+}
+export type SignInLocalMutationHookResult = ReturnType<
+  typeof useSignInLocalMutation
+>;
+export type SignInLocalMutationResult =
+  Apollo.MutationResult<SignInLocalMutation>;
+export type SignInLocalMutationOptions = Apollo.BaseMutationOptions<
+  SignInLocalMutation,
+  SignInLocalMutationVariables
+>;
+export const SignOutDocument = gql`
+  mutation SignOut {
+    signOut {
+      success
+    }
+  }
+`;
+export type SignOutMutationFn = Apollo.MutationFunction<
+  SignOutMutation,
+  SignOutMutationVariables
+>;
+
+/**
+ * __useSignOutMutation__
+ *
+ * To run a mutation, you first call `useSignOutMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSignOutMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [signOutMutation, { data, loading, error }] = useSignOutMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useSignOutMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    SignOutMutation,
+    SignOutMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<SignOutMutation, SignOutMutationVariables>(
+    SignOutDocument,
+    options
+  );
+}
+export type SignOutMutationHookResult = ReturnType<typeof useSignOutMutation>;
+export type SignOutMutationResult = Apollo.MutationResult<SignOutMutation>;
+export type SignOutMutationOptions = Apollo.BaseMutationOptions<
+  SignOutMutation,
+  SignOutMutationVariables
+>;
+export const SignUpLocalDocument = gql`
+  mutation SignUpLocal($createUserInput: CreateUser!) {
+    signUpLocal(createUserInput: $createUserInput) {
+      _id
+      createdAt
+      email
+      firstName
+      lastName
+      tokens {
+        ...TokensFragment
+      }
+      updatedAt
+    }
+  }
+  ${TokensFragmentFragmentDoc}
+`;
+export type SignUpLocalMutationFn = Apollo.MutationFunction<
+  SignUpLocalMutation,
+  SignUpLocalMutationVariables
+>;
+
+/**
+ * __useSignUpLocalMutation__
+ *
+ * To run a mutation, you first call `useSignUpLocalMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSignUpLocalMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [signUpLocalMutation, { data, loading, error }] = useSignUpLocalMutation({
+ *   variables: {
+ *      createUserInput: // value for 'createUserInput'
+ *   },
+ * });
+ */
+export function useSignUpLocalMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    SignUpLocalMutation,
+    SignUpLocalMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<SignUpLocalMutation, SignUpLocalMutationVariables>(
+    SignUpLocalDocument,
+    options
+  );
+}
+export type SignUpLocalMutationHookResult = ReturnType<
+  typeof useSignUpLocalMutation
+>;
+export type SignUpLocalMutationResult =
+  Apollo.MutationResult<SignUpLocalMutation>;
+export type SignUpLocalMutationOptions = Apollo.BaseMutationOptions<
+  SignUpLocalMutation,
+  SignUpLocalMutationVariables
 >;
 export const CheckoutSessionDocument = gql`
   query CheckoutSession($checkoutSessionId: String!) {
@@ -326,6 +701,49 @@ export type CheckoutSessionQueryResult = Apollo.QueryResult<
   CheckoutSessionQuery,
   CheckoutSessionQueryVariables
 >;
+export const MeDocument = gql`
+  query Me {
+    me {
+      _id
+      lastName
+      firstName
+      email
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+/**
+ * __useMeQuery__
+ *
+ * To run a query within a React component, call `useMeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMeQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMeQuery(
+  baseOptions?: Apollo.QueryHookOptions<MeQuery, MeQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+}
+export function useMeLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<MeQuery, MeQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+}
+export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
+export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
+export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
 export const MovieDocument = gql`
   query Movie($movieId: String!) {
     movie(id: $movieId) {

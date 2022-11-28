@@ -1,0 +1,5 @@
+fragment TokensFragment on TokensDto {
+  token
+  refreshToken
+  tokenExpiration
+}

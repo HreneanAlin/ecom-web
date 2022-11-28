@@ -1,13 +1,17 @@
-import { TextInput, PasswordInput, Button} from "@mantine/core"
+import React from "react"
+import { TextInput, PasswordInput, Button } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
 import { HiLockClosed, HiAtSymbol, HiUserCircle } from "react-icons/hi"
-import React from "react"
 import { useForm } from "react-hook-form"
 import { RegisterFields, registerSchema } from "../../zodSchemas"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { PasswordChecks } from "../PasswordChecks/PasswordChecks"
+import { useSignUpLocal } from "../../hooks"
+
 export const RegisterForm = () => {
   const [visible, { toggle }] = useDisclosure(false)
+
+  const { onLocalSubmit, loading } = useSignUpLocal()
   const { register, handleSubmit, formState, watch } = useForm<RegisterFields>({
     defaultValues: {
       firstName: "",
@@ -20,13 +24,9 @@ export const RegisterForm = () => {
     resolver: zodResolver(registerSchema),
   })
 
-  const onSubmit = (values: RegisterFields) => {
-    console.log(values)
-  }
-
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(onLocalSubmit)}
       className='tw-w-96 tw-pt-2 tw-flex tw-flex-col tw-gap-3'
     >
       <TextInput
@@ -74,7 +74,7 @@ export const RegisterForm = () => {
         withAsterisk
       />
       <PasswordChecks password={watch("password1")} />
-      <Button disabled={!formState.isValid} type='submit'>
+      <Button loading={loading} disabled={!formState.isValid} type='submit'>
         Register
       </Button>
     </form>

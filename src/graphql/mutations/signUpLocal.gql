@@ -1,0 +1,13 @@
+mutation SignUpLocal($createUserInput: CreateUser!) {
+  signUpLocal(createUserInput: $createUserInput) {
+    _id
+    createdAt
+    email
+    firstName
+    lastName
+    tokens {
+      ...TokensFragment
+    }
+    updatedAt
+  }
+}

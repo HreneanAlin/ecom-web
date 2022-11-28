@@ -1,0 +1,12 @@
+mutation SignInLocal($signInLocal: SignInLocal!) {
+  signInLocal(signInLocal: $signInLocal) {
+    tokens {
+      ...TokensFragment
+    }
+    firstName
+    lastName
+    email
+    updatedAt
+    createdAt
+  }
+}

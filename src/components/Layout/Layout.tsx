@@ -3,7 +3,9 @@ import { NavigationBar } from "../NavigationBar"
 import { Outlet } from "react-router-dom"
 import { AppShell } from "@mantine/core"
 import { Header } from "../Header"
+import { useMeQuery } from "../../generated/graphql"
 export const Layout = () => {
+ 
   return (
     <AppShell
       padding='md'

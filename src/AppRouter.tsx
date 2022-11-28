@@ -1,14 +1,20 @@
 import React from "react"
 import {
-  BrowserRouter,
-  Routes,
   RouterProvider,
   Route,
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom"
 import { Layout, RootLayout } from "./components"
-import { Home, Movies, Movie, Login, Register, SuccessPay } from "./pages"
+import {
+  Home,
+  Movies,
+  Movie,
+  Login,
+  Register,
+  SuccessPay,
+  Logout,
+} from "./pages"
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -19,6 +25,7 @@ const router = createBrowserRouter(
         <Route path='/movies/:id' element={<Movie />} />
         <Route path='/success-pay/:sessionId' element={<SuccessPay />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/logout' element={<Logout />} />
         <Route path='/register' element={<Register />} />
       </Route>
     </Route>

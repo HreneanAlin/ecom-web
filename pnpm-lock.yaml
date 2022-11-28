@@ -12,7 +12,6 @@ specifiers:
   '@mantine/core': ^5.6.1
   '@mantine/hooks': ^5.6.1
   '@mantine/notifications': ^5.6.1
-  '@tabler/icons': ^1.106.0
   '@types/node': ^18.11.3
   '@types/react': ^18.0.17
   '@types/react-dom': ^18.0.6
@@ -20,6 +19,7 @@ specifiers:
   autoprefixer: ^10.4.12
   clsx: ^1.2.1
   concurrently: ^7.5.0
+  dayjs: ^1.11.6
   dotenv: ^16.0.3
   graphql: ^16.6.0
   graphql-tag: ^2.12.6
@@ -45,8 +45,8 @@ dependencies:
   '@mantine/core': 5.6.1_lw2bnmjkfhtvnumpmzuv42aqpy
   '@mantine/hooks': 5.6.1_react@18.2.0
   '@mantine/notifications': 5.6.1_ogw74x2o63pz64drwzzggd7jle
-  '@tabler/icons': 1.106.0_biqbaboplfbrettd7655fr4n2y
   clsx: 1.2.1
+  dayjs: 1.11.6
   dotenv: 16.0.3
   graphql: 16.6.0
   graphql-tag: 2.12.6_graphql@16.6.0
@@ -1605,21 +1605,6 @@ packages:
     engines: {node: '>=14'}
     dev: false
 
-  /@tabler/icons/1.106.0_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-ldN/ucjGrtAE3YlU8ct8j13ZNbrUueEIqw3jVpGQ55eVztlqVBzGnZbF5kJyLJGmHtxVblyyhEWsRKutFbB21A==}
-    peerDependencies:
-      react: ^16.x || 17.x || 18.x
-      react-dom: ^16.x || 17.x || 18.x
-    peerDependenciesMeta:
-      react:
-        optional: true
-      react-dom:
-        optional: true
-    dependencies:
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-    dev: false
-
   /@tootallnate/once/2.0.0:
     resolution: {integrity: sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==}
     engines: {node: '>= 10'}
@@ -2336,6 +2321,10 @@ packages:
     resolution: {integrity: sha512-dDCnyH2WnnKusqvZZ6+jA1O51Ibt8ZMRNkDZdyAyK4YfbDwa/cEmuztzG5pk6hqlp9aSBPYcjOlktquahGwGeA==}
     engines: {node: '>=0.11'}
     dev: true
+
+  /dayjs/1.11.6:
+    resolution: {integrity: sha512-zZbY5giJAinCG+7AGaw0wIhNZ6J8AhWuSXKvuc1KAyMiRsvGQWqh4L+MomvhdAYjN+lqvVCMq1I41e3YHvXkyQ==}
+    dev: false
 
   /debounce/1.2.1:
     resolution: {integrity: sha512-XRRe6Glud4rd/ZGQfiV1ruXSfbvfJedlV9Y6zOlP+2K04vBYiJEte6stfFkCP03aMnY5tsipamumUjL14fofug==}

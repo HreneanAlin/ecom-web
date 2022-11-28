@@ -1,0 +1,1 @@
+export const INTERVAR_REFETCH_TOKEN = 1000 * 10 * 60 //10 min
