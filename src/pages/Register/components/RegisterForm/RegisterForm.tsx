@@ -11,22 +11,11 @@ import { useSignUpLocal } from "../../hooks"
 export const RegisterForm = () => {
   const [visible, { toggle }] = useDisclosure(false)
 
-  const { onLocalSubmit, loading } = useSignUpLocal()
-  const { register, handleSubmit, formState, watch } = useForm<RegisterFields>({
-    defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      password1: "",
-      password2: "",
-    },
-    mode: "onBlur",
-    resolver: zodResolver(registerSchema),
-  })
+  const { onSubmit, loading, register, formState, watch } = useSignUpLocal()
 
   return (
     <form
-      onSubmit={handleSubmit(onLocalSubmit)}
+      onSubmit={onSubmit}
       className='tw-w-96 tw-pt-2 tw-flex tw-flex-col tw-gap-3'
     >
       <TextInput
