@@ -8,19 +8,11 @@ import { useSignInLocal } from "../hooks"
 import { LoginFields, loginSchema } from "../zodSchemas/loginSchema"
 export const LoginForm = () => {
   const [visible, { toggle }] = useDisclosure(false)
-  const { onLocalSubmit, loading } = useSignInLocal()
-  const { register, handleSubmit, formState } = useForm<LoginFields>({
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-    mode: "onBlur",
-    resolver: zodResolver(loginSchema),
-  })
+  const { onSubmit, loading, register, formState } = useSignInLocal()
 
   return (
     <form
-      onSubmit={handleSubmit(onLocalSubmit)}
+      onSubmit={onSubmit}
       className='tw-w-96 tw-pt-2 tw-flex tw-flex-col tw-gap-3'
     >
       <TextInput

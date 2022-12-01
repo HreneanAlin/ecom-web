@@ -49,7 +49,7 @@ export const useSignUpLocal = () => {
           setError(err.property, { message: err.constraints })
         })
       } else {
-        showNotification("something went wrong")
+        showNotification({ message: "something went wrong" })
       }
     },
   })

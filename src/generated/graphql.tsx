@@ -81,6 +81,7 @@ export type MovieInput = {
 
 export type MovieWithQuantityDto = {
   __typename?: "MovieWithQuantityDTO";
+  _id: Scalars["String"];
   movie: Movie;
   quantity: Scalars["Int"];
 };
@@ -317,6 +318,25 @@ export type MeQuery = {
     email: string;
     createdAt: any;
     updatedAt: any;
+    payments: Array<{
+      __typename?: "CheckoutSession";
+      _id: string;
+      status: string;
+      url: string;
+    }>;
+    movies: Array<{
+      __typename?: "MovieWithQuantityDTO";
+      _id: string;
+      quantity: number;
+      movie: {
+        __typename?: "Movie";
+        _id: string;
+        title: string;
+        price: number;
+        description: string;
+        onSale: boolean;
+      };
+    }>;
   };
 };
 
@@ -710,8 +730,21 @@ export const MeDocument = gql`
       email
       createdAt
       updatedAt
+      payments {
+        _id
+        status
+        url
+      }
+      movies {
+        _id
+        quantity
+        movie {
+          ...MovieFragment
+        }
+      }
     }
   }
+  ${MovieFragmentFragmentDoc}
 `;
 
 /**

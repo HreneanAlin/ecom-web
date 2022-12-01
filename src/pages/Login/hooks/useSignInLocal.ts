@@ -1,5 +1,7 @@
 import { useApolloClient, useMutation } from "@apollo/client"
+import { zodResolver } from "@hookform/resolvers/zod"
 import { useLocalStorage } from "@mantine/hooks"
+import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
 import {
   MeDocument,
@@ -7,11 +9,19 @@ import {
   useSignInLocalMutation,
 } from "../../../generated/graphql"
 import { TOKENS } from "../../../helpers/constants/localStorageKeys"
-import { LoginFields } from "../zodSchemas/loginSchema"
+import { LoginFields, loginSchema } from "../zodSchemas/loginSchema"
 
 export const useSignInLocal = () => {
   const client = useApolloClient()
   const navigate = useNavigate()
+  const { register, handleSubmit, formState, setError } = useForm<LoginFields>({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+    mode: "onBlur",
+    resolver: zodResolver(loginSchema),
+  })
   const [_, setTokens] = useLocalStorage<TokensDto>({ key: TOKENS })
   const [signInLocal, { loading, error }] = useSignInLocalMutation({
     onCompleted: data => {
@@ -21,6 +31,15 @@ export const useSignInLocal = () => {
           include: [MeDocument],
         })
         navigate("/")
+      }
+    },
+    onError: error => {
+      const serverErrors = error.graphQLErrors[0]
+      if (serverErrors.message === "wrong email") {
+        setError("email", { message: "Unknown Email" })
+      }
+      if (serverErrors.message === "wrong password") {
+        setError("password", { message: "Wrong Password" })
       }
     },
   })
@@ -36,5 +55,11 @@ export const useSignInLocal = () => {
     })
   }
 
-  return { onLocalSubmit, loading, error }
+  return {
+    onSubmit: handleSubmit(onLocalSubmit),
+    loading,
+    error,
+    register,
+    formState,
+  }
 }

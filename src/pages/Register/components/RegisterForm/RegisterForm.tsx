@@ -2,15 +2,11 @@ import React from "react"
 import { TextInput, PasswordInput, Button } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
 import { HiLockClosed, HiAtSymbol, HiUserCircle } from "react-icons/hi"
-import { useForm } from "react-hook-form"
-import { RegisterFields, registerSchema } from "../../zodSchemas"
-import { zodResolver } from "@hookform/resolvers/zod"
 import { PasswordChecks } from "../PasswordChecks/PasswordChecks"
 import { useSignUpLocal } from "../../hooks"
 
 export const RegisterForm = () => {
   const [visible, { toggle }] = useDisclosure(false)
-
   const { onSubmit, loading, register, formState, watch } = useSignUpLocal()
 
   return (
