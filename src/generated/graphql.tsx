@@ -172,6 +172,7 @@ export type UserDto = {
   firstName: Scalars["String"];
   lastName: Scalars["String"];
   movies: Array<MovieWithQuantityDto>;
+  openPayments: Array<CheckoutSession>;
   payments: Array<CheckoutSession>;
   updatedAt: Scalars["DateTime"];
 };
@@ -184,6 +185,7 @@ export type UserWithTokensDto = {
   firstName: Scalars["String"];
   lastName: Scalars["String"];
   movies: Array<MovieWithQuantityDto>;
+  openPayments: Array<CheckoutSession>;
   payments: Array<CheckoutSession>;
   tokens: TokensDto;
   updatedAt: Scalars["DateTime"];
@@ -318,7 +320,7 @@ export type MeQuery = {
     email: string;
     createdAt: any;
     updatedAt: any;
-    payments: Array<{
+    openPayments: Array<{
       __typename?: "CheckoutSession";
       _id: string;
       status: string;
@@ -730,7 +732,7 @@ export const MeDocument = gql`
       email
       createdAt
       updatedAt
-      payments {
+      openPayments {
         _id
         status
         url

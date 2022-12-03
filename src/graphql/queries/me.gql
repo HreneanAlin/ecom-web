@@ -6,7 +6,7 @@ query Me {
     email
     createdAt
     updatedAt
-    payments {
+    openPayments {
       _id
       status
       url
