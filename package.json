@@ -16,6 +16,8 @@
     "@mantine/core": "^5.6.1",
     "@mantine/hooks": "^5.6.1",
     "@mantine/notifications": "^5.6.1",
+    "@stripe/react-stripe-js": "^1.16.0",
+    "@stripe/stripe-js": "^1.46.0",
     "clsx": "^1.2.1",
     "dayjs": "^1.11.6",
     "dotenv": "^16.0.3",

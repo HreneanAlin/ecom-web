@@ -32,16 +32,16 @@ export type CheckoutSession = {
   url: Scalars["String"];
 };
 
-export type CreateCheckoutSession = {
-  products: Array<MovieInput>;
-};
-
 export type CreateMovieInput = {
   description: Scalars["String"];
   onSale?: InputMaybe<Scalars["Boolean"]>;
   /** price in USD */
   price: Scalars["Int"];
   title: Scalars["String"];
+};
+
+export type CreatePaymentInput = {
+  products: Array<MovieInput>;
 };
 
 export type CreateUser = {
@@ -90,6 +90,7 @@ export type Mutation = {
   __typename?: "Mutation";
   createCheckoutSession: CheckoutSession;
   createMovie: Movie;
+  createPaymentIntent: PaymentIntentDto;
   refreshTokens: TokensDto;
   removeMovie: Movie;
   signInLocal: UserWithTokensDto;
@@ -99,11 +100,15 @@ export type Mutation = {
 };
 
 export type MutationCreateCheckoutSessionArgs = {
-  createCheckoutSession: CreateCheckoutSession;
+  createPayment: CreatePaymentInput;
 };
 
 export type MutationCreateMovieArgs = {
   createMovieInput: CreateMovieInput;
+};
+
+export type MutationCreatePaymentIntentArgs = {
+  createPayment: CreatePaymentInput;
 };
 
 export type MutationRemoveMovieArgs = {
@@ -191,6 +196,11 @@ export type UserWithTokensDto = {
   updatedAt: Scalars["DateTime"];
 };
 
+export type PaymentIntentDto = {
+  __typename?: "paymentIntentDTO";
+  clientSecret: Scalars["String"];
+};
+
 export type MovieFragmentFragment = {
   __typename?: "Movie";
   _id: string;
@@ -208,7 +218,7 @@ export type TokensFragmentFragment = {
 };
 
 export type CreateCheckoutSessionMutationVariables = Exact<{
-  createCheckoutSession: CreateCheckoutSession;
+  createPayment: CreatePaymentInput;
 }>;
 
 export type CreateCheckoutSessionMutation = {
@@ -217,6 +227,18 @@ export type CreateCheckoutSessionMutation = {
     __typename?: "CheckoutSession";
     _id: string;
     url: string;
+  };
+};
+
+export type CreatePaymentIntentMutationVariables = Exact<{
+  createPayment: CreatePaymentInput;
+}>;
+
+export type CreatePaymentIntentMutation = {
+  __typename?: "Mutation";
+  createPaymentIntent: {
+    __typename?: "paymentIntentDTO";
+    clientSecret: string;
   };
 };
 
@@ -389,10 +411,8 @@ export const TokensFragmentFragmentDoc = gql`
   }
 `;
 export const CreateCheckoutSessionDocument = gql`
-  mutation CreateCheckoutSession(
-    $createCheckoutSession: CreateCheckoutSession!
-  ) {
-    createCheckoutSession(createCheckoutSession: $createCheckoutSession) {
+  mutation CreateCheckoutSession($createPayment: CreatePaymentInput!) {
+    createCheckoutSession(createPayment: $createPayment) {
       _id
       url
     }
@@ -416,7 +436,7 @@ export type CreateCheckoutSessionMutationFn = Apollo.MutationFunction<
  * @example
  * const [createCheckoutSessionMutation, { data, loading, error }] = useCreateCheckoutSessionMutation({
  *   variables: {
- *      createCheckoutSession: // value for 'createCheckoutSession'
+ *      createPayment: // value for 'createPayment'
  *   },
  * });
  */
@@ -440,6 +460,56 @@ export type CreateCheckoutSessionMutationResult =
 export type CreateCheckoutSessionMutationOptions = Apollo.BaseMutationOptions<
   CreateCheckoutSessionMutation,
   CreateCheckoutSessionMutationVariables
+>;
+export const CreatePaymentIntentDocument = gql`
+  mutation CreatePaymentIntent($createPayment: CreatePaymentInput!) {
+    createPaymentIntent(createPayment: $createPayment) {
+      clientSecret
+    }
+  }
+`;
+export type CreatePaymentIntentMutationFn = Apollo.MutationFunction<
+  CreatePaymentIntentMutation,
+  CreatePaymentIntentMutationVariables
+>;
+
+/**
+ * __useCreatePaymentIntentMutation__
+ *
+ * To run a mutation, you first call `useCreatePaymentIntentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreatePaymentIntentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createPaymentIntentMutation, { data, loading, error }] = useCreatePaymentIntentMutation({
+ *   variables: {
+ *      createPayment: // value for 'createPayment'
+ *   },
+ * });
+ */
+export function useCreatePaymentIntentMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreatePaymentIntentMutation,
+    CreatePaymentIntentMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    CreatePaymentIntentMutation,
+    CreatePaymentIntentMutationVariables
+  >(CreatePaymentIntentDocument, options);
+}
+export type CreatePaymentIntentMutationHookResult = ReturnType<
+  typeof useCreatePaymentIntentMutation
+>;
+export type CreatePaymentIntentMutationResult =
+  Apollo.MutationResult<CreatePaymentIntentMutation>;
+export type CreatePaymentIntentMutationOptions = Apollo.BaseMutationOptions<
+  CreatePaymentIntentMutation,
+  CreatePaymentIntentMutationVariables
 >;
 export const RefreshTokensDocument = gql`
   mutation RefreshTokens {

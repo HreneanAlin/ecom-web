@@ -12,6 +12,8 @@ specifiers:
   '@mantine/core': ^5.6.1
   '@mantine/hooks': ^5.6.1
   '@mantine/notifications': ^5.6.1
+  '@stripe/react-stripe-js': ^1.16.0
+  '@stripe/stripe-js': ^1.46.0
   '@types/node': ^18.11.3
   '@types/react': ^18.0.17
   '@types/react-dom': ^18.0.6
@@ -45,6 +47,8 @@ dependencies:
   '@mantine/core': 5.6.1_lw2bnmjkfhtvnumpmzuv42aqpy
   '@mantine/hooks': 5.6.1_react@18.2.0
   '@mantine/notifications': 5.6.1_ogw74x2o63pz64drwzzggd7jle
+  '@stripe/react-stripe-js': 1.16.0_keartrz7uyerl3wkpjpue4xbhy
+  '@stripe/stripe-js': 1.46.0
   clsx: 1.2.1
   dayjs: 1.11.6
   dotenv: 16.0.3
@@ -1603,6 +1607,23 @@ packages:
   /@remix-run/router/1.0.2:
     resolution: {integrity: sha512-GRSOFhJzjGN+d4sKHTMSvNeUPoZiDHWmRnXfzaxrqe7dE/Nzlc8BiMSJdLDESZlndM7jIUrZ/F4yWqVYlI0rwQ==}
     engines: {node: '>=14'}
+    dev: false
+
+  /@stripe/react-stripe-js/1.16.0_keartrz7uyerl3wkpjpue4xbhy:
+    resolution: {integrity: sha512-HCgaZjo2tGn7ZxMul6NAiBNYgPBIX5Bxx0lsE8DxFakp1v/JA0KZezs0HXj37Ua0clK1Ip4kVCBG0TIJsqf/Aw==}
+    peerDependencies:
+      '@stripe/stripe-js': ^1.44.1
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@stripe/stripe-js': 1.46.0
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /@stripe/stripe-js/1.46.0:
+    resolution: {integrity: sha512-dkm0zCEoRLu5rTnsIgwDf/QG2DKcalOT2dk1IVgMySOHWTChLyOvQwMYhEduGgLvyYWTwNhAUV4WOLPQvjwLwA==}
     dev: false
 
   /@tootallnate/once/2.0.0:

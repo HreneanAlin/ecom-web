@@ -14,6 +14,7 @@ import {
   Register,
   SuccessPay,
   Logout,
+  Checkout,
 } from "./pages"
 
 const router = createBrowserRouter(
@@ -27,6 +28,7 @@ const router = createBrowserRouter(
         <Route path='/login' element={<Login />} />
         <Route path='/logout' element={<Logout />} />
         <Route path='/register' element={<Register />} />
+        <Route path='/checkout/:clientSecret' element={<Checkout />} />
       </Route>
     </Route>
   )

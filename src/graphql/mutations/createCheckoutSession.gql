@@ -1,5 +1,5 @@
-mutation CreateCheckoutSession($createCheckoutSession: CreateCheckoutSession!) {
-  createCheckoutSession(createCheckoutSession: $createCheckoutSession) {
+mutation CreateCheckoutSession($createPayment: CreatePaymentInput!) {
+  createCheckoutSession(createPayment: $createPayment) {
     _id
     url
   }

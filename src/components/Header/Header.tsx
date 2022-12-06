@@ -14,15 +14,17 @@ import { CartItem } from "./components/CartItem"
 import { Field } from "../../types/Field"
 import { useCreateCheckoutSessionMutation } from "../../generated/graphql"
 import { useNavigate } from "react-router-dom"
+import { useCreatePaymentIntent } from "../../hooks/useCreatePaymentIntent"
 export const Header = () => {
   const { fields } = useShoppingCartStore()
   const [createCheckout, { data, loading }] = useCreateCheckoutSessionMutation()
+  const { createPaymentIntent } = useCreatePaymentIntent()
   const navigate = useNavigate()
 
   const handleCheckout = async () => {
     const { data } = await createCheckout({
       variables: {
-        createCheckoutSession: {
+        createPayment: {
           products: [...fields.values()].map(field => ({
             movieId: field.movieId,
             quantity: field.quantity,
@@ -34,6 +36,19 @@ export const Header = () => {
     if (url) {
       window.location.href = url
     }
+  }
+
+  const handleCustomCheckout = () => {
+    createPaymentIntent({
+      variables: {
+        createPayment: {
+          products: [...fields.values()].map(field => ({
+            movieId: field.movieId,
+            quantity: field.quantity,
+          })),
+        },
+      },
+    })
   }
 
   return (
@@ -52,9 +67,13 @@ export const Header = () => {
               {[...fields.values()].map(field => (
                 <CartItem key={field.movieId} field={field} />
               ))}
-              <div className='tw-flex tw-justify-center'>
+              <div className='tw-flex tw-justify-center tw-flex-col tw-pb-2'>
                 <Button onClick={handleCheckout} loading={loading}>
                   Go to Checkout
+                </Button>
+                <Text align='center'>or</Text>
+                <Button onClick={handleCustomCheckout}>
+                  Go to costum checkout
                 </Button>
               </div>
             </Menu.Dropdown>
