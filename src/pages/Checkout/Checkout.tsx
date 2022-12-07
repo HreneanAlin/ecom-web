@@ -10,18 +10,20 @@ const stripePromise = loadStripe(STRIPE_PUBLIC_KEY)
 export const Checkout = () => {
   const { clientSecret } = useParams()
   return (
-    <div>
-      <Elements
-        options={{
-          appearance: {
-            theme: "night",
-          },
-          clientSecret,
-        }}
-        stripe={stripePromise}
-      >
-        <CheckoutForm clientSecret={clientSecret} />
-      </Elements>
+    <div className='tw-flex tw-items-center tw-justify-center'>
+      <div className='tw-max-w-lg tw-flex-grow'>
+        <Elements
+          options={{
+            appearance: {
+              theme: "night",
+            },
+            clientSecret,
+          }}
+          stripe={stripePromise}
+        >
+          <CheckoutForm clientSecret={clientSecret} />
+        </Elements>
+      </div>
     </div>
   )
 }

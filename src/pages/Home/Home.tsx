@@ -18,7 +18,7 @@ export const Home = () => {
         <div>
           <p>your payments:</p>
           {data.me.openPayments.map(payment => (
-            <div className='tw-flex tw-gap-2'>
+            <div key={payment._id} className='tw-flex tw-gap-2'>
               <div>
                 <a href={payment.url}>{payment._id}</a>
               </div>

@@ -127,12 +127,26 @@ export type MutationUpdateMovieArgs = {
   updateMovieInput: UpdateMovieInput;
 };
 
+export type PaymentIntentDto = {
+  __typename?: "PaymentIntentDTO";
+  clientSecret: Scalars["String"];
+};
+
+export type PaymentIntentRecord = {
+  __typename?: "PaymentIntentRecord";
+  _id: Scalars["String"];
+  movies: Array<MovieDto>;
+  status: Scalars["String"];
+  stripeId: Scalars["String"];
+};
+
 export type Query = {
   __typename?: "Query";
   checkoutSession: CheckoutSession;
   me: UserDto;
   movie: Movie;
   movies: Array<Movie>;
+  paymentIntent: PaymentIntentRecord;
 };
 
 export type QueryCheckoutSessionArgs = {
@@ -140,6 +154,10 @@ export type QueryCheckoutSessionArgs = {
 };
 
 export type QueryMovieArgs = {
+  id: Scalars["String"];
+};
+
+export type QueryPaymentIntentArgs = {
   id: Scalars["String"];
 };
 
@@ -196,11 +214,6 @@ export type UserWithTokensDto = {
   updatedAt: Scalars["DateTime"];
 };
 
-export type PaymentIntentDto = {
-  __typename?: "paymentIntentDTO";
-  clientSecret: Scalars["String"];
-};
-
 export type MovieFragmentFragment = {
   __typename?: "Movie";
   _id: string;
@@ -237,7 +250,7 @@ export type CreatePaymentIntentMutationVariables = Exact<{
 export type CreatePaymentIntentMutation = {
   __typename?: "Mutation";
   createPaymentIntent: {
-    __typename?: "paymentIntentDTO";
+    __typename?: "PaymentIntentDTO";
     clientSecret: string;
   };
 };
@@ -392,6 +405,29 @@ export type MoviesQuery = {
     description: string;
     onSale: boolean;
   }>;
+};
+
+export type PaymentIntentQueryVariables = Exact<{
+  paymentIntentId: Scalars["String"];
+}>;
+
+export type PaymentIntentQuery = {
+  __typename?: "Query";
+  paymentIntent: {
+    __typename?: "PaymentIntentRecord";
+    stripeId: string;
+    status: string;
+    _id: string;
+    movies: Array<{
+      __typename?: "MovieDto";
+      _id: string;
+      title: string;
+      price: number;
+      description: string;
+      onSale: boolean;
+      quantity: number;
+    }>;
+  };
 };
 
 export const MovieFragmentFragmentDoc = gql`
@@ -945,4 +981,72 @@ export type MoviesLazyQueryHookResult = ReturnType<typeof useMoviesLazyQuery>;
 export type MoviesQueryResult = Apollo.QueryResult<
   MoviesQuery,
   MoviesQueryVariables
+>;
+export const PaymentIntentDocument = gql`
+  query PaymentIntent($paymentIntentId: String!) {
+    paymentIntent(id: $paymentIntentId) {
+      movies {
+        _id
+        title
+        price
+        description
+        onSale
+        quantity
+      }
+      stripeId
+      status
+      _id
+    }
+  }
+`;
+
+/**
+ * __usePaymentIntentQuery__
+ *
+ * To run a query within a React component, call `usePaymentIntentQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePaymentIntentQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePaymentIntentQuery({
+ *   variables: {
+ *      paymentIntentId: // value for 'paymentIntentId'
+ *   },
+ * });
+ */
+export function usePaymentIntentQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    PaymentIntentQuery,
+    PaymentIntentQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<PaymentIntentQuery, PaymentIntentQueryVariables>(
+    PaymentIntentDocument,
+    options
+  );
+}
+export function usePaymentIntentLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    PaymentIntentQuery,
+    PaymentIntentQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<PaymentIntentQuery, PaymentIntentQueryVariables>(
+    PaymentIntentDocument,
+    options
+  );
+}
+export type PaymentIntentQueryHookResult = ReturnType<
+  typeof usePaymentIntentQuery
+>;
+export type PaymentIntentLazyQueryHookResult = ReturnType<
+  typeof usePaymentIntentLazyQuery
+>;
+export type PaymentIntentQueryResult = Apollo.QueryResult<
+  PaymentIntentQuery,
+  PaymentIntentQueryVariables
 >;

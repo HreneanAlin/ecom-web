@@ -1,0 +1,15 @@
+query PaymentIntent($paymentIntentId: String!) {
+  paymentIntent(id: $paymentIntentId) {
+    movies {
+      _id
+      title
+      price
+      description
+      onSale
+      quantity
+    }
+    stripeId
+    status
+    _id
+  }
+}

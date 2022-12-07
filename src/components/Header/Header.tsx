@@ -16,9 +16,10 @@ import { useCreateCheckoutSessionMutation } from "../../generated/graphql"
 import { useNavigate } from "react-router-dom"
 import { useCreatePaymentIntent } from "../../hooks/useCreatePaymentIntent"
 export const Header = () => {
-  const { fields } = useShoppingCartStore()
+  const { fields, clear } = useShoppingCartStore()
   const [createCheckout, { data, loading }] = useCreateCheckoutSessionMutation()
-  const { createPaymentIntent } = useCreatePaymentIntent()
+  const { createPaymentIntent, loading: intentLoading } =
+    useCreatePaymentIntent()
   const navigate = useNavigate()
 
   const handleCheckout = async () => {
@@ -48,6 +49,9 @@ export const Header = () => {
           })),
         },
       },
+      onCompleted: () => {
+        clear()
+      },
     })
   }
 
@@ -72,7 +76,7 @@ export const Header = () => {
                   Go to Checkout
                 </Button>
                 <Text align='center'>or</Text>
-                <Button onClick={handleCustomCheckout}>
+                <Button loading={intentLoading} onClick={handleCustomCheckout}>
                   Go to costum checkout
                 </Button>
               </div>

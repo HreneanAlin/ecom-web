@@ -15,6 +15,7 @@ import {
   SuccessPay,
   Logout,
   Checkout,
+  SuccessPayCustom,
 } from "./pages"
 
 const router = createBrowserRouter(
@@ -25,6 +26,10 @@ const router = createBrowserRouter(
         <Route path='/movies' element={<Movies />} />
         <Route path='/movies/:id' element={<Movie />} />
         <Route path='/success-pay/:sessionId' element={<SuccessPay />} />
+        <Route
+          path='/success-pay-custom/:intentId'
+          element={<SuccessPayCustom />}
+        />
         <Route path='/login' element={<Login />} />
         <Route path='/logout' element={<Logout />} />
         <Route path='/register' element={<Register />} />

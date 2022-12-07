@@ -7,6 +7,7 @@ interface UseShoppingCartStore {
   fields: Map<string, Field>
   addItemToCart: (field: Field) => void
   hasItem: (id: string) => boolean
+  clear: () => void
 }
 
 export const useShoppingCartStore = create<UseShoppingCartStore>()(
@@ -42,6 +43,7 @@ export const useShoppingCartStore = create<UseShoppingCartStore>()(
       set(() => ({ fields }))
     },
     hasItem: id => get().fields.has(id),
+    clear: () => get().fields.clear(),
   })
 )
 
