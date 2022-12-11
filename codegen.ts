@@ -3,7 +3,10 @@ import { config } from "dotenv"
 config({ path: ".env.local" })
 
 const codegenConfig: CodegenConfig = {
-  schema: `${process.env.VITE_API_URL}/graphql`,
+  schema: [
+    `${process.env.VITE_API_URL}/graphql`,
+    "ws://localhost:4008/graphql",
+  ],
   overwrite: true,
   documents: "src/graphql/**/*.gql",
   generates: {

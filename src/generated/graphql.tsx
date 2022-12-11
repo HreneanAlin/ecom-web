@@ -19,6 +19,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
   DateTime: any;
 };
 
@@ -169,6 +170,15 @@ export type SignInLocal = {
 export type SignOutDto = {
   __typename?: "SignOutDto";
   success: Scalars["Boolean"];
+};
+
+export type Subscription = {
+  __typename?: "Subscription";
+  paymentDone: PaymentIntentRecord;
+};
+
+export type SubscriptionPaymentDoneArgs = {
+  id: Scalars["String"];
 };
 
 export type TokensDto = {
@@ -426,6 +436,24 @@ export type PaymentIntentQuery = {
       description: string;
       onSale: boolean;
       quantity: number;
+    }>;
+  };
+};
+
+export type PaymentDoneSubscriptionVariables = Exact<{
+  paymentDoneId: Scalars["String"];
+}>;
+
+export type PaymentDoneSubscription = {
+  __typename?: "Subscription";
+  paymentDone: {
+    __typename?: "PaymentIntentRecord";
+    _id: string;
+    stripeId: string;
+    movies: Array<{
+      __typename?: "MovieDto";
+      price: number;
+      description: string;
     }>;
   };
 };
@@ -1050,3 +1078,49 @@ export type PaymentIntentQueryResult = Apollo.QueryResult<
   PaymentIntentQuery,
   PaymentIntentQueryVariables
 >;
+export const PaymentDoneDocument = gql`
+  subscription PaymentDone($paymentDoneId: String!) {
+    paymentDone(id: $paymentDoneId) {
+      _id
+      stripeId
+      movies {
+        price
+        description
+      }
+    }
+  }
+`;
+
+/**
+ * __usePaymentDoneSubscription__
+ *
+ * To run a query within a React component, call `usePaymentDoneSubscription` and pass it any options that fit your needs.
+ * When your component renders, `usePaymentDoneSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePaymentDoneSubscription({
+ *   variables: {
+ *      paymentDoneId: // value for 'paymentDoneId'
+ *   },
+ * });
+ */
+export function usePaymentDoneSubscription(
+  baseOptions: Apollo.SubscriptionHookOptions<
+    PaymentDoneSubscription,
+    PaymentDoneSubscriptionVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useSubscription<
+    PaymentDoneSubscription,
+    PaymentDoneSubscriptionVariables
+  >(PaymentDoneDocument, options);
+}
+export type PaymentDoneSubscriptionHookResult = ReturnType<
+  typeof usePaymentDoneSubscription
+>;
+export type PaymentDoneSubscriptionResult =
+  Apollo.SubscriptionResult<PaymentDoneSubscription>;
