@@ -1,0 +1,8 @@
+fragment PaymentIntentRecordFragment on PaymentIntentRecord {
+  _id
+  stripeId
+  movies {
+    price
+    description
+  }
+}

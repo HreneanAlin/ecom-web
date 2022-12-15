@@ -1,14 +1,12 @@
-import {
-  ApolloCache,
-  gql,
-  useApolloClient,
-  useSubscription,
-} from "@apollo/client"
+import { useApolloClient } from "@apollo/client"
 import { showNotification } from "@mantine/notifications"
 import { useStripe, useElements } from "@stripe/react-stripe-js"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { MeDocument } from "../../../generated/graphql"
+import {
+  MeDocument,
+  usePaymentDoneSubscription,
+} from "../../../generated/graphql"
 
 export const usePay = (clientSecret: string | undefined) => {
   const stripe = useStripe()
@@ -16,30 +14,16 @@ export const usePay = (clientSecret: string | undefined) => {
   const [isLoading, setIsLoading] = useState(false)
   const [id, setId] = useState("")
   const client = useApolloClient()
-  const { data } = useSubscription(
-    gql`
-      subscription PaymentDone($paymentDoneId: String!) {
-        paymentDone(id: $paymentDoneId) {
-          _id
-          stripeId
-          movies {
-            price
-            description
-          }
-        }
-      }
-    `,
-    {
-      variables: {
-        paymentDoneId: id,
-      },
-      onData: () => {
-        client.refetchQueries({
-          include: [MeDocument],
-        })
-      },
-    }
-  )
+  const { data } = usePaymentDoneSubscription({
+    variables: {
+      paymentDoneId: id,
+    },
+    onData: () => {
+      client.refetchQueries({
+        include: [MeDocument],
+      })
+    },
+  })
   const navigate = useNavigate()
   useEffect(() => {
     ;(async () => {

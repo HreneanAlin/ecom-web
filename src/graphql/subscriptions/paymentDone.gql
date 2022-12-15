@@ -1,10 +1,5 @@
 subscription PaymentDone($paymentDoneId: String!) {
   paymentDone(id: $paymentDoneId) {
-    _id
-    stripeId
-    movies {
-      price
-      description
-    }
+    ...PaymentIntentRecordFragment
   }
 }

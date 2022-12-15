@@ -233,6 +233,17 @@ export type MovieFragmentFragment = {
   onSale: boolean;
 };
 
+export type PaymentIntentRecordFragmentFragment = {
+  __typename?: "PaymentIntentRecord";
+  _id: string;
+  stripeId: string;
+  movies: Array<{
+    __typename?: "MovieDto";
+    price: number;
+    description: string;
+  }>;
+};
+
 export type TokensFragmentFragment = {
   __typename?: "TokensDto";
   token: string;
@@ -465,6 +476,16 @@ export const MovieFragmentFragmentDoc = gql`
     price
     description
     onSale
+  }
+`;
+export const PaymentIntentRecordFragmentFragmentDoc = gql`
+  fragment PaymentIntentRecordFragment on PaymentIntentRecord {
+    _id
+    stripeId
+    movies {
+      price
+      description
+    }
   }
 `;
 export const TokensFragmentFragmentDoc = gql`
@@ -1081,14 +1102,10 @@ export type PaymentIntentQueryResult = Apollo.QueryResult<
 export const PaymentDoneDocument = gql`
   subscription PaymentDone($paymentDoneId: String!) {
     paymentDone(id: $paymentDoneId) {
-      _id
-      stripeId
-      movies {
-        price
-        description
-      }
+      ...PaymentIntentRecordFragment
     }
   }
+  ${PaymentIntentRecordFragmentFragmentDoc}
 `;
 
 /**
